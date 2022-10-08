@@ -7,11 +7,13 @@
     {
       "fileMatch": [
         "Dockerfile",
-        "README.md"
+        "README.md",
+        "build_push_image.yaml"
       ],
       "matchStrings": [
         "ENV KUSTOMIZE_VERSION=(?<currentValue>.*)",
-        "repo:\\shttps:\\/\/github.com\\/rtrox\\/pre-commit-kustomize-check\\s+rev:\\s(?<currentValue>.*)"
+        "repo:\\shttps:\\/\/github.com\\/rtrox\\/pre-commit-kustomize-check\\s+rev:\\s(?<currentValue>.*)",
+        "env:\\s+KUSTOMIZE_VERSION:\\s+(?<currentValue>.*)"
       ],
       "depNameTemplate": "kubernetes-sigs/kustomize",
       "datasourceTemplate": "github-releases",

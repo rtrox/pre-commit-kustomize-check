@@ -8,6 +8,9 @@ on:
   pull_request:
     branches: main
 
+env:
+  KUSTOMIZE_VERSION: v4.5.6
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -21,6 +24,7 @@ jobs:
           DOCKER_IMAGE=rtrox/kustomize_check
           DOCKER_PLATFORMS=linux/amd64,linux/arm64,linux/ppc64le,linux/s390x 
           TAGS="--tag ${DOCKER_IMAGE}:latest"
+          TAGS="$TAGS --tag ${DOCKER_IMAGE}:${KUSTOMIZE_VERSION}"
           echo ::set-output name=docker_image::${DOCKER_IMAGE}
           echo ::set-output name=buildx_args::--platform ${DOCKER_PLATFORMS} \
             $TAGS --file ./Dockerfile ./
@@ -38,7 +42,7 @@ jobs:
           docker buildx build --output "type=image,push=false" ${{ steps.prepare.outputs.buildx_args }}
 
       - name: Docker Login
-        if: success() && github.event_name != 'pull_request'
+        if: success() && github.event_name == 'push'
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
@@ -46,11 +50,25 @@ jobs:
           echo "${DOCKER_PASSWORD}" | docker login --username "${DOCKER_USERNAME}" --password-stdin
 
       - name: Docker Buildx (push)
-        if: success() && github.event_name != 'pull_request'
+        if: success() && github.event_name == 'push'
         run: |
           docker buildx build --output "type=image,push=true" ${{ steps.prepare.outputs.buildx_args }}
+      
+      - name: Create Tag
+        if: success() && github.event.name == 'push'
+        uses: actions/github-script@v5
+        with:
+          script: |
+            const KUSTOMIZE_VERSION = process.env
+            github.rest.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: `refs/tags/${KUSTOMIZE_VERSION}`,
+              sha: context.sha
+            })        
 
       - name: Clear
         if: always() && github.event_name != 'pull_request'
         run: |
           rm -f ${HOME}/.docker/config.json
+      
