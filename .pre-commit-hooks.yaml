@@ -1,0 +1,16 @@
+-   id: kustomize_check
+    name: kustomize docker image
+    description: Kustomize Check from Docker Image
+    entry: rtrox/kustomize_check:latest kustomize build
+    language: docker_image
+    args: [overlay/production-us]
+    always_run: true
+    pass_filenames: false
+-   id: kustomize_check_local
+    name: kustomize docker local
+    description: Kustomize Check via Local Docker Build
+    entry: kustomize build
+    language: docker
+    args: [overlay/production-us]
+    always_run: true
+    pass_filenames: false
