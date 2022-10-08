@@ -1,7 +1,7 @@
 -   id: kustomize_check
     name: kustomize docker image
     description: Kustomize Check from Docker Image
-    entry: rtrox/kustomize_check:v4.5.6 kustomize build
+    entry: rtrox/kustomize_check:v4.5.7 kustomize build
     language: docker_image
     args: [overlay/production-us]
     always_run: true
