@@ -6,6 +6,7 @@
     args: [overlay/production-us]
     always_run: true
     pass_filenames: false
+    files: ((^|/)*.(ya?ml)$)
 -   id: kustomize_check_local
     name: kustomize docker local
     description: Kustomize Check via Local Docker Build
@@ -14,3 +15,4 @@
     args: [overlay/production-us]
     always_run: true
     pass_filenames: false
+    files: ((^|/)*.(ya?ml)$)
