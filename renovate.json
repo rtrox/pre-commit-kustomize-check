@@ -5,9 +5,13 @@
   ],
   "regexManagers": [
     {
-      "fileMatch": ["Dockerfile"],
+      "fileMatch": [
+        "Dockerfile",
+        "README.md"
+      ],
       "matchStrings": [
-        "ENV KUSTOMIZE_VERSION=(?<currentValue>.*)"
+        "ENV KUSTOMIZE_VERSION=(?<currentValue>.*)",
+        "repo:\\shttps:\\/\/github.com\\/rtrox\\/pre-commit-kustomize-check\\s+rev:\\s(?<currentValue>.*)"
       ],
       "depNameTemplate": "kubernetes-sigs/kustomize",
       "datasourceTemplate": "github-releases",
