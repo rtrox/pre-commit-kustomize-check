@@ -10,17 +10,17 @@ with a few crucial improvements:
 `pre-commit-kustomize-check` utilizes standard pre-commit hook configuration.
 
 ### Global Config Options:
-- `rev`: like normally, this points to the git tag you wish to use for 
-# Build Multi-Arch Image Locally
-[Docker Instructions](https://www.docker.com/blog/how-to-rapidly-build-multi-architecture-images-with-buildx/#:~:text=Building%20Multi%2DArchitecture%20Images%20with,manifest%20list%20to%20Docker%20Hub.)
-```bash
-docker buildx create --name kustomize-precheck-builder --use --bootstrap
-docker buildx build \
-    --platform linux/amd64,linux/arm64,linux/ppc64le,linux/s390x \
-    --tag <your_docker_username>/kustomize_check:latest .
-```
+- `rev`: the version of `kustomize` you wish to use in this hook (this repository is tagged by `kustomize` version).
+- `repo`: this repo (`https://github.com/rtrox/pre-commit-kustomize-check`)
 
-# Example Config
+### Hook configuration
+- `id`: `kustomize_check` or `kustomize_check_local`.
+  - `kustomize_check` uses the dockerhub image built by this repo
+  - `kustomize_check_local` builds the docker image locally for each run.
+- `name`: A unique name which will be printed with `pre-commit` output.
+- `args`: The directory you wish to build with kustomize
+
+### Example Config
 ```
 ---
 fail_fast: false
@@ -45,4 +45,14 @@ repos:
         name: kustomize-x86-infra
         args: [cluster-cd/infra/x86]
         verbose: false
+```
+
+
+# Building the Multi Arch image locally for Testing
+[Docker Instructions](https://www.docker.com/blog/how-to-rapidly-build-multi-architecture-images-with-buildx/#:~:text=Building%20Multi%2DArchitecture%20Images%20with,manifest%20list%20to%20Docker%20Hub.)
+```bash
+docker buildx create --name kustomize-precheck-builder --use --bootstrap
+docker buildx build \
+    --platform linux/amd64,linux/arm64,linux/ppc64le,linux/s390x \
+    --tag <your_docker_username>/kustomize_check:latest .
 ```
