@@ -55,7 +55,7 @@ jobs:
       
       - name: Create Tag
         if: success() && github.event_name == 'push'
-        uses: actions/github-script@v5
+        uses: actions/github-script@v6
         with:
           script: |
             const { KUSTOMIZE_VERSION } = process.env
