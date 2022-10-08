@@ -4,6 +4,7 @@
 with a few crucial improvements:
 - `kustomize-check` defaults to using a pre-built image, which drastically speeds up checks, as the image can be cached locally. If you prefer to build the image locally for security, you can utilize the `kustomize_check_local` hook instead, which utilizes the original behavior of building the docker image locally for each run.
 - `kustomize-check` utilizes renovate to automatically keep up with upstream versions of the `kustomize` binary. `kustomize` version availability starts with `v4.5.6`
+- the `kustomize_check` docker image stored in dockerhub is now multiarch, allowing it to be run natively on the following platforms: `linux/amd64`, `linux/arm64`, `linux/ppc64le`, `linux/s390x`
 
 # Configuration
 
