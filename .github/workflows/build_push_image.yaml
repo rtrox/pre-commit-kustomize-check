@@ -1,5 +1,4 @@
-
-
+---
 name: "build and push image"
 
 on:
@@ -9,7 +8,7 @@ on:
     branches: main
 
 env:
-  KUSTOMIZE_VERSION: v4.5.6
+  KUSTOMIZE_VERSION: v4.5.7
 
 jobs:
   build:
@@ -55,11 +54,11 @@ jobs:
           docker buildx build --output "type=image,push=true" ${{ steps.prepare.outputs.buildx_args }}
       
       - name: Create Tag
-        if: success() && github.event.name == 'push'
+        if: success() && github.event_name == 'push'
         uses: actions/github-script@v5
         with:
           script: |
-            const KUSTOMIZE_VERSION = process.env
+            const { KUSTOMIZE_VERSION } = process.env
             github.rest.git.createRef({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -68,7 +67,7 @@ jobs:
             })        
 
       - name: Clear
-        if: always() && github.event_name != 'pull_request'
+        if: always() && github.event_name == 'push'
         run: |
           rm -f ${HOME}/.docker/config.json
       

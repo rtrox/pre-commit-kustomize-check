@@ -23,7 +23,7 @@ repos:
           - .github/lint/.yamllint.yaml
         id: yamllint
   - repo: https://github.com/rtrox/pre-commit-kustomize-check
-    rev: 4.5.6
+    rev: v4.5.7
     hooks:
       # Use docker image published by this repo
       - id: kustomize_check
