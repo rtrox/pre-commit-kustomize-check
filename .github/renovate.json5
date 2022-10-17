@@ -34,7 +34,7 @@
       "datasourceTemplate": "github-releases",
       "extractVersionTemplate": "^kustomize/(?<version>.*)$"
     }
-  ]
+  ],
   "labels": ["dependencies"],
   "packageRules": [
     // add labels according to package and update types
