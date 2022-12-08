@@ -4,7 +4,7 @@
     entry: rtrox/kustomize_check:v4.5.7 kustomize build
     language: docker_image
     args: [overlay/production-us]
-    always_run: true
+    always_run: false
     pass_filenames: false
     files: ((^|/)*.(ya?ml)$)
 -   id: kustomize_check_local
@@ -13,6 +13,14 @@
     entry: kustomize build
     language: docker
     args: [overlay/production-us]
-    always_run: true
+    always_run: false
+    pass_filenames: false
+    files: ((^|/)*.(ya?ml)$)
+-   id: kustomize_check_system
+    name: Kustomize Check using installed kustomize binary
+    entry: kustomize build
+    language: system
+    args: [overlay/production-us]
+    always_run: false
     pass_filenames: false
     files: ((^|/)*.(ya?ml)$)

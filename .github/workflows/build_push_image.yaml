@@ -3,9 +3,11 @@ name: "build and push image"
 
 on:
   push:
-    branches: main
+    branches:
+      - main
   pull_request:
-    branches: main
+    branches:
+      - main
 
 env:
   KUSTOMIZE_VERSION: v4.5.7
@@ -16,12 +18,12 @@ jobs:
     steps:
       - name: checkout code
         uses: actions/checkout@v3.1.0
- 
+
       - name: Prepare
         id: prepare
         run: |
           DOCKER_IMAGE=rtrox/kustomize_check
-          DOCKER_PLATFORMS=linux/amd64,linux/arm64,linux/ppc64le,linux/s390x 
+          DOCKER_PLATFORMS=linux/amd64,linux/arm64,linux/ppc64le,linux/s390x
           TAGS="--tag ${DOCKER_IMAGE}:latest"
           TAGS="$TAGS --tag ${DOCKER_IMAGE}:${KUSTOMIZE_VERSION}"
           echo ::set-output name=docker_image::${DOCKER_IMAGE}
@@ -52,13 +54,13 @@ jobs:
       - name: Docker Buildx (push)
         if: success() && github.event_name == 'push'
         run: |
-          docker buildx build --output "type=image,push=true" ${{ steps.prepare.outputs.buildx_args }}    
+          docker buildx build --output "type=image,push=true" ${{ steps.prepare.outputs.buildx_args }}
 
       - name: Clear
         if: always() && github.event_name == 'push'
         run: |
           rm -f ${HOME}/.docker/config.json
-  
+
   tag_release:
     runs-on: ubuntu-latest
     needs: build
@@ -90,4 +92,4 @@ jobs:
             })
 
 
-      
+
