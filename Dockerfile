@@ -1,4 +1,4 @@
-FROM alpine:3.18.3 AS build_base
+FROM alpine:3.18.4 AS build_base
 
 
 ENV KUSTOMIZE_VERSION=v4.5.7
@@ -18,7 +18,7 @@ RUN  curl -L --output ${KUSTOMIZE_BINARY_TAR} ${KUSTOMIZE_BINARY_URL} \
   && tar -xvzf kustomize_${KUSTOMIZE_VERSION}_linux_amd64.tar.gz -C /tmp/ 
 
 # Published Image
-FROM alpine:3.18.3
+FROM alpine:3.18.4
 
 COPY --from=build_base /tmp/kustomize /usr/local/bin/kustomize
 
