@@ -67,7 +67,7 @@ jobs:
     if: github.event_name == 'push'
     steps:
       - name: Create Tag
-        uses: actions/github-script@v6
+        uses: actions/github-script@v7
         continue-on-error: true
         with:
           script: |
@@ -80,7 +80,7 @@ jobs:
             })
 
       - name: Update Tag
-        uses: actions/github-script@v6
+        uses: actions/github-script@v7
         with:
           script: |
             const { KUSTOMIZE_VERSION } = process.env
