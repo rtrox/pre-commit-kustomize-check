@@ -10,7 +10,7 @@ on:
       - main
 
 env:
-  KUSTOMIZE_VERSION: v4.5.7
+  KUSTOMIZE_VERSION: v5.8.0
 
 jobs:
   build:
